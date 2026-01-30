@@ -4,6 +4,8 @@ public class EIMONE {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
+        final int[] DENOMINATIONS = { 20, 10, 5, 1 };
+
         int money = sc.nextInt();
         /*
         int temp = 0;
@@ -29,12 +31,11 @@ public class EIMONE {
         }
          */
 
-        int[] bankNotes = new int[] { 20, 10, 5, 1 };
-        for (int i = 0; i < bankNotes.length; i++) {
-            int temp = money / bankNotes[i];
-            if (money>=bankNotes[i]) {
-                System.out.println(bankNotes[i] + " " + temp);
-                money -= bankNotes[i] * temp;
+        for (int i = 0; i < DENOMINATIONS.length; i++) {
+            if (money >= DENOMINATIONS[i]) {
+                int temp = money / DENOMINATIONS[i];
+                System.out.println(DENOMINATIONS[i] + " " + temp);
+                money -= DENOMINATIONS[i] * temp;
             }
             
         }
