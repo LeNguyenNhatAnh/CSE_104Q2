@@ -1,34 +1,43 @@
+package lab3;
+
 import java.util.Scanner;
 
 public class EIAUCTION {
+    private static final int MAX_VALUE = 6;
+
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();
-        int[] arr = new int[n];
-        int[] count = new int[7]; 
-        for (int i = 0; i < n; i++) {
-            int number = sc.nextInt();
-            arr[i] = sc.nextInt();
-            count[arr[i]]++;
+        Scanner scanner = new Scanner(System.in);
+
+        int numberOfRolls = scanner.nextInt();
+        int[] rolls = new int[numberOfRolls];
+        int[] frequency = new int[MAX_VALUE + 1];
+
+        for (int i = 0; i < numberOfRolls; i++) {
+            rolls[i] = scanner.nextInt();
+            frequency[rolls[i]]++;
         }
-        
-        int resultIndex = -1;
-        for (int i = 6; i >=1; i--) {
-            if (count[i]==1) {
-                for (int j = 0; j < n; j++) {
-                    if (arr[j]==i) {
-                        resultIndex=j+1;
-                        break;
-                    }
-                }
+
+        int highestUniqueValue = -1;
+        for (int value = MAX_VALUE; value >= 1; value--) {
+            if (frequency[value] == 1) {
+                highestUniqueValue = value;
+                break;
             }
         }
 
-        if(resultIndex!=-1)
-            System.out.println(resultIndex);
-        else
+        if (highestUniqueValue == -1) {
             System.out.println("none");
-        sc.close();
-    }
+            scanner.close();
+            return;
+        }
 
+        for (int i = 0; i < numberOfRolls; i++) {
+            if (rolls[i] == highestUniqueValue) {
+                System.out.println(i + 1); // index starts from 1
+                break;
+            }
+        }
+
+        scanner.close();
+    }
 }

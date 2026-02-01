@@ -1,20 +1,28 @@
+package lab3;
+
 import java.util.Scanner;
 
 public class EIBANKFEE {
+    private static final double[] MONTHLY_FEES = { 12.00, 7.50, 5.00, 0.00 };
+    private static final double[] CHECK_FEES = { 0.20, 0.20, 0.10, 0.00 };
+    private static final double[] BALANCE_LIMITS = { 500, 2000, 5000, Double.MAX_VALUE };
+
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        double money = sc.nextDouble();
-        int sec = sc.nextInt();
-        double[] monthlyFee = new double[] { 12.00, 7.5, 5.00, 0 };
-        double[] check = new double[] { 0.20, 0.20, 0.10, 0 };
-        double[] sodu = new double[] { 500, 2000, 5000, Long.MAX_VALUE };
-        double fee = 0;
-        for (int i = 0; i < check.length; i++) {
-            if (money < sodu[i]) {
-                fee = monthlyFee[i] + check[i] * sec;
+        Scanner scanner = new Scanner(System.in);
+
+        double balance = scanner.nextDouble();
+        int numberOfChecks = scanner.nextInt();
+
+        double totalFee = 0.0;
+
+        for (int i = 0; i < CHECK_FEES.length; i++) {
+            if (balance < BALANCE_LIMITS[i]) {
+                totalFee = MONTHLY_FEES[i] + CHECK_FEES[i] * numberOfChecks;
                 break;
             }
         }
-        System.out.printf("%.2f", fee);
+
+        System.out.printf("%.2f", totalFee);
+        scanner.close();
     }
 }

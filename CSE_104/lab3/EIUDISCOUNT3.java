@@ -1,34 +1,45 @@
+package lab3;
+
 import java.util.Scanner;
 
 public class EIUDISCOUNT3 {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
+    private static final double ONLINE_DISCOUNT_RATE = 0.98;
+    private static final double VIP_DISCOUNT_RATE = 0.98;
+    private static final double CARD_DISCOUNT_RATE = 0.98;
 
-        long price = sc.nextLong();
-        int onl = sc.nextInt();
-        int vip = sc.nextInt();
-        int card = sc.nextInt();
+    private static final double[] PRICE_THRESHOLDS = { 5_000_000, 20_000_000, 100_000_000, 300_000_000, 600_000_000,
+            900_000_000, Double.MAX_VALUE };
+    private static final double[] DISCOUNT_RATES = { 0.03, 0.05, 0.07, 0.10, 0.12, 0.15 };
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        long originalPrice = scanner.nextLong();
+        int isOnline = scanner.nextInt();
+        int isVip = scanner.nextInt();
+        int hasCard = scanner.nextInt();
 
         double totalDiscount = 0;
-        double[] money = new double[] { 5_000_000, 20_000_000, 100_000_000, 300_000_000, 600_000_000, 900_000_000,
-                Long.MAX_VALUE };
-        double[] disRate = new double[] { 0.03, 0.05, 0.07, 0.1, 0.12, 0.15 };
 
-        for (int i = 0; i < disRate.length; i++) {
-            if (price > money[i])
-                totalDiscount += Math.min((money[i + 1] - money[i]), (price - money[i])) * disRate[i];
+        for (int i = 0; i < DISCOUNT_RATES.length; i++) {
+            if (originalPrice > PRICE_THRESHOLDS[i]) {
+                double applicableAmount = Math.min(
+                        PRICE_THRESHOLDS[i + 1] - PRICE_THRESHOLDS[i],
+                        originalPrice - PRICE_THRESHOLDS[i]);
+                totalDiscount += applicableAmount * DISCOUNT_RATES[i];
+            }
         }
 
-        long currentPrice = (long) (price - totalDiscount);
-        if (onl == 1)
-            currentPrice = (long) (currentPrice * 0.98);
-        if (vip == 1)
-            currentPrice = (long) (currentPrice * 0.98);
-        if (card == 1)
-            currentPrice = (long) (currentPrice * 0.98);
+        long finalPrice = (long) (originalPrice - totalDiscount);
 
-        System.out.println(currentPrice);
-        sc.close();
+        if (isOnline == 1)
+            finalPrice = (long) (finalPrice * ONLINE_DISCOUNT_RATE);
+        if (isVip == 1)
+            finalPrice = (long) (finalPrice * VIP_DISCOUNT_RATE);
+        if (hasCard == 1)
+            finalPrice = (long) (finalPrice * CARD_DISCOUNT_RATE);
+
+        System.out.println(finalPrice);
+        scanner.close();
     }
-
 }

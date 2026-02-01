@@ -1,27 +1,43 @@
+package lab3;
+
 import java.util.Scanner;
 
 public class EIUCHRMS {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
 
-        int n = sc.nextInt();
-        int aThousand = 1000;
-        double[] money = { 0, 2000 * aThousand, 5000 * aThousand, 10000 * aThousand, 20000 * aThousand,
-                50000 * aThousand, 100000 * aThousand, 200000 * aThousand };
-        double[] rate = { 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.1 };
+    private static final int THOUSAND = 1_000;
+    private static final double[] INCOME_THRESHOLDS = {
+            0,
+            2_000 * THOUSAND,
+            5_000 * THOUSAND,
+            10_000 * THOUSAND,
+            20_000 * THOUSAND,
+            50_000 * THOUSAND,
+            100_000 * THOUSAND,
+            200_000 * THOUSAND
+    };
+
+    private static final double[] DISCOUNT_RATES = {
+            0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.10
+    };
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        int numberOfInvoices = scanner.nextInt();
         double totalIncome = 0;
 
-        for (int i = 0; i < n; i++) {
-            int invoice = sc.nextInt();
-            for (int j = rate.length - 1; j >= 0; j--) {
-                if (invoice > money[j]) {
-                    totalIncome += invoice * (1 - rate[j]);
+        for (int i = 0; i < numberOfInvoices; i++) {
+            int invoiceAmount = scanner.nextInt();
+
+            for (int j = DISCOUNT_RATES.length - 1; j >= 0; j--) {
+                if (invoiceAmount > INCOME_THRESHOLDS[j]) {
+                    totalIncome += invoiceAmount * (1 - DISCOUNT_RATES[j]);
                     break;
                 }
             }
         }
-        System.out.println(Math.round(totalIncome));
-        sc.close();
-    }
 
+        System.out.println(Math.round(totalIncome));
+        scanner.close();
+    }
 }
